@@ -4,10 +4,21 @@ import {createClient} from 'redis'
 const PORT = process.env.PORT || 5000
 
 const app = express()
+
 const client = createClient({
-	host: 'rediss://red-cm77267qd2ns73f1rjt0:Wljvjp0kbpKDRyZlikIfrw8f7BAOfBjF@ohio-redis.render.com',
-	port: 6379,
+	url: process.env.REDIS_URL,
 })
+
+client.on('error', (err) => console.log('Redis Client Error', err))
+
+await client.connect()
+
+// Send and retrieve some values
+await client.set('key', 'node redis')
+const value = await client.get('key')
+
+console.log('found value: ', value)
+
 client.set('visits', 0)
 
 app.get('/', (req, res) => {
