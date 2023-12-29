@@ -5,19 +5,17 @@ const PORT = process.env.PORT || 5000
 
 const app = express()
 
-const client = createClient({
-	url: process.env.REDIS_URL,
+const client = await createClient({
+	url: 'redis://red-cm77267qd2ns73f1rjt0:6379',
 })
-
-client.on('error', (err) => console.log('Redis Client Error', err))
-
-await client.connect()
+	.on('error', (err) => console.log('Redis Client Error', err))
+	.connect()
 
 // Send and retrieve some values
 await client.set('key', 'node redis')
 const value = await client.get('key')
 
-console.log('found value: ', value)
+console.log('value', value)
 
 client.set('visits', 0)
 
