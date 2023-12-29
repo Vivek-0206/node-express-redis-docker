@@ -5,8 +5,8 @@ const PORT = process.env.PORT || 5000
 
 const app = express()
 const client = createClient({
-	host: 'redis-server',
-	port: 6379
+	host: 'redis://red-cm77267qd2ns73f1rjt0',
+	port: 6379,
 })
 client.set('visits', 0)
 
